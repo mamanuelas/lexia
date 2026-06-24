@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Lexend', Arial, sans-serif;
+    background:#F7F3E9; /* fondo crema suave */
+    color:#2B2B2B;
+    min-height:100vh;
+    line-height:1.8;
+    letter-spacing:0.05em;
+    word-spacing:0.15em;
+}
+
+body.dislexia{
+    font-family:'OpenDyslexic', 'Lexend', Arial, sans-serif;
+    line-height:2;
+    letter-spacing:0.08em;
+    word-spacing:0.2em;
+}
+
+header{
+    background:#E8E1D5;
+    padding:25px;
+    text-align:center;
+    border-bottom:2px solid #D6CCC2;
+}
+
+header h1{
+    font-size:2.5rem;
+    color:#3A5A98;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:40px 20px;
+}
+
+.hero{
+    background:#FFF8E7;
+    padding:40px;
+    border-radius:20px;
+    margin-bottom:30px;
+}
+
+.hero h2{
+    color:#3A5A98;
+    margin-bottom:15px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#EFE6D8;
+    padding:25px;
+    border-radius:20px;
+    transition:0.3s;
+    border:1px solid #D6CCC2;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.controles{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+button{
+    width:60px;
+    height:60px;
+    border:none;
+    border-radius:50%;
+    background:#3A5A98;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#4A6FB3;
+}
+
+footer{
+    text-align:center;
+    padding:25px;
+    color:#5C5C5C;
+}
