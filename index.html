@@ -5,8 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LEXIA</title>
 
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600&display=swap');
+
 
 *{
     margin:0;
@@ -14,12 +16,36 @@
     box-sizing:border-box;
 }
 
+
 body{
-    font-family:'open', sans-serif;
+    font-family:'Lexend', sans-serif;
     background:#111827;
     color:#E5E7EB;
     min-height:100vh;
+    transition:0.3s;
 }
+
+
+body.pastel{
+    background:#FDECEC;
+    color:#374151;
+}
+
+
+body.pastel header,
+body.pastel .hero,
+body.pastel .card{
+    background:#FFF7F7;
+    border-color:#FBCFE8;
+}
+
+
+body.pastel h1,
+body.pastel h2,
+body.pastel h3{
+    color:#EC4899;
+}
+
 
 header{
     background:#1F2937;
@@ -28,21 +54,25 @@ header{
     border-bottom:2px solid #374151;
 }
 
+
 header h1{
     font-size:2.5rem;
     color:#60A5FA;
 }
+
 
 header p{
     margin-top:10px;
     color:#9CA3AF;
 }
 
+
 .container{
     max-width:1100px;
     margin:auto;
     padding:40px 20px;
 }
+
 
 .hero{
     background:#1F2937;
@@ -51,21 +81,25 @@ header p{
     margin-bottom:30px;
 }
 
+
 .hero h2{
     color:#60A5FA;
     margin-bottom:15px;
 }
+
 
 .hero p{
     font-size:1.2rem;
     line-height:2;
 }
 
+
 .cards{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
     gap:20px;
 }
+
 
 .card{
     background:#1F2937;
@@ -75,19 +109,23 @@ header p{
     border:1px solid #374151;
 }
 
+
 .card:hover{
     transform:translateY(-5px);
     border-color:#60A5FA;
 }
+
 
 .card h3{
     color:#60A5FA;
     margin-bottom:10px;
 }
 
+
 .card p{
     line-height:1.8;
 }
+
 
 .controles{
     position:fixed;
@@ -97,6 +135,7 @@ header p{
     flex-direction:column;
     gap:10px;
 }
+
 
 button{
     width:60px;
@@ -109,9 +148,11 @@ button{
     cursor:pointer;
 }
 
+
 button:hover{
     background:#3B82F6;
 }
+
 
 footer{
     text-align:center;
@@ -122,61 +163,81 @@ footer{
 </head>
 <body>
 
+
 <header>
     <h1>LEXIA</h1>
     <p></p>
 </header>
 
+
 <div class="container">
+
 
     <section class="hero">
         <h2>Bienvenido</h2>
         <p>
-            En la cotidianidad las personas las cuales padecen este trastorno conviven con ciertas dificultades, nos tomamos el trabajo de comunicarnos con ellos para que nos comenten acerca de estos, algunos ejemplos son : 
-Al momento de leer textos destinados al estudio no le es posible comprenderlos haciendo que cuando deba enfrentarse a un examen no recuerde o entienda el tema, al igual que cuando reciben mensajes largos donde se encuentran las letras de un tamaño pequeño y palabras juntas.
-
+            En la cotidianidad las personas que padecen este trastorno enfrentan dificultades para comprender textos,
+            especialmente cuando son largos o tienen letras pequeñas.
         </p>
     </section>
 
+
     <section class="cards">
+
 
         <div class="card">
             <h3>👁️ Mejor lectura</h3>
             <p>Tipografía clara y tamaño adaptable.</p>
         </div>
 
+
         <div class="card">
             <h3>🌙 Modo oscuro</h3>
             <p>Reduce la fatiga visual en sesiones largas.</p>
         </div>
+
 
         <div class="card">
             <h3>⚡ Accesibilidad</h3>
             <p>Interfaz simple y fácil de entender.</p>
         </div>
 
+
     </section>
 
+
 </div>
+
 
 <div class="controles">
     <button onclick="cambiar(2)">+</button>
     <button onclick="cambiar(-2)">−</button>
+    <button onclick="pastel()">🎨</button>
 </div>
+
 
 <footer>
     Diseño accesible • 2026
 </footer>
 
+
 <script>
 let size = 18;
+
 
 function cambiar(valor){
     size += valor;
     if(size < 14) size = 14;
+    if(size > 30) size = 30;
     document.body.style.fontSize = size + "px";
 }
+
+
+function pastel(){
+    document.body.classList.toggle("pastel");
+}
 </script>
+
 
 </body>
 </html>
