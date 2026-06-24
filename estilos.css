@@ -1,4 +1,6 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600&display=swap');
+
 
 *{
     margin:0;
@@ -8,7 +10,7 @@
 
 body{
     font-family:'Lexend', Arial, sans-serif;
-    background:#F7F3E9; /* fondo crema suave */
+    background:#F7F3E9; 
     color:#2B2B2B;
     min-height:100vh;
     line-height:1.8;
@@ -99,4 +101,17 @@ footer{
     text-align:center;
     padding:25px;
     color:#5C5C5C;
+}
+body.accesibilidad{
+    background-color:#ffffff !important;
+    color:#000000 !important;
+}
+
+body.accesibilidad .hero{
+    background-color:#f2f2f2 !important;
+}
+
+body.accesibilidad .card{
+    background-color:#ffffff !important;
+    border:2px solid #000000 !important;
 }

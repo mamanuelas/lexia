@@ -29,22 +29,25 @@ Al momento de leer textos destinados al estudio no le es posible comprenderlos h
     </section>
 
     <section class="cards">
+        
 
-        <div class="card">
-            <h3> Mejor lectura</h3>
-            <p>Tipografía clara y tamaño adaptable.</p>
-        </div>
+        <div class="card" onclick="modoDislexia()" style="cursor:pointer;">
+    <h3> Lectura clara</h3>
+    <p>
+        Usamos una tipografía fácil de leer, con letras bien separadas 
+        y un tamaño ajustable para mejorar la comprensión.
+    </p>
+</div>
 
-        <div class="card">
-            <h3> Modo oscuro</h3>
-            <p>Reduce la fatiga visual en sesiones largas.</p>
-        </div>
+    
 
-        <div class="card">
-            <h3> Accesibilidad</h3>
-            <p>Interfaz simple y fácil de entender.</p>
-        </div>
-
+        <div class="card" onclick="modoAccesibilidad()" style="cursor:pointer;">
+    <h3> Accesibilidad</h3>
+    <p>
+        Interfaz simple, con alto contraste y elementos claros 
+        para facilitar la lectura y navegación.
+    </p>
+</div>
     </section>
 
 </div>
@@ -60,6 +63,14 @@ Al momento de leer textos destinados al estudio no le es posible comprenderlos h
 </footer>
 
 <script>
+
+function modoAccesibilidad(){
+    document.body.classList.toggle("accesibilidad");
+}
+
+
+
+
 let size = 18;
 
 function cambiar(valor){
