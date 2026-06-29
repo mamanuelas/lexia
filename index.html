@@ -22,41 +22,35 @@
     <section class="hero">
         <h2>Bienvenido</h2>
         <p>
-            En la cotidianidad las personas las cuales padecen este trastorno conviven con ciertas dificultades, nos tomamos el trabajo de comunicarnos con ellos para que nos comenten acerca de estos, algunos ejemplos son : 
-Al momento de leer textos destinados al estudio no le es posible comprenderlos haciendo que cuando deba enfrentarse a un examen no recuerde o entienda el tema, al igual que cuando reciben mensajes largos donde se encuentran las letras de un tamaño pequeño y palabras juntas.
+            En la cotidianidad las personas las cuales padecen este trastorno conviven con ciertas dificultades y muchas de esas son en el ámbito escolar, nos tomamos el trabajo de comunicarnos con ellos para que nos comenten acerca de estos. Al momento de leer textos destinados al estudio no le es posible comprenderlos haciendo que cuando deba enfrentarse a un examen no recuerde o entienda el tema, al igual que cuando reciben mensajes largos donde se encuentran las letras de un tamaño pequeño y palabras juntas.
+El objetivo principal de la página creada es adaptar textos, imágenes y documentos de forma que el usuario pueda comprender con mayor facilidad, adaptando la fuente, el espaciado y los colores tanto del fondo como de la letra con el fin de complacer las necesidades del mismo. Además de tener entre las funciones opcionales la inclusión de imágenes, ejemplos y simplificación del vocabulario adaptado al nivel y edad de la persona. También contará con la tecnología TTS (text-to-speech) para ayudar con la lectura 
+
 
         </p>
     </section>
 
-    <section class="cards">
-        
-
-        <div class="card" onclick="modoDislexia()" style="cursor:pointer;">
-    <h3> Lectura clara</h3>
-    <p>
-        Usamos una tipografía fácil de leer, con letras bien separadas 
-        y un tamaño ajustable para mejorar la comprensión.
-    </p>
-</div>
-
+    <section class="editor">
+        <h2>Escribe o dicta tu texto</h2>
     
-
-        <div class="card" onclick="modoAccesibilidad()" style="cursor:pointer;">
-    <h3> Accesibilidad</h3>
-    <p>
-        Interfaz simple, con alto contraste y elementos claros 
-        para facilitar la lectura y navegación.
-    </p>
-</div>
+        <textarea id="texto" placeholder="Escribe aquí o utiliza el micrófono..." rows="10"></textarea>
+    
+        <br><br>
+    
+        <div class="botones">
+            <input type="file" id="imagen" accept="image/*">
+            <button onclick="iniciarDictado()">🎤</button>
+        </div>
+        
+        <div class="edades">
+            <button class="edad-btn" onclick="seleccionarEdad('0-6')">0 - 6 años</button>
+            <button class="edad-btn" onclick="seleccionarEdad('6-12')">6 - 12 años</button>
+            <button class="edad-btn" onclick="seleccionarEdad('12+')">12 años o más</button>
+        </div>
+        </div>
     </section>
 
 </div>
 
-<div class="controles">
-    <button onclick="cambiar(2)">+</button>
-    <button onclick="cambiar(-2)">−</button>
-    <button onclick="modoDislexia()">D</button>
-</div>
 
 <footer>
     Diseño accesible • 2026
@@ -67,9 +61,6 @@ Al momento de leer textos destinados al estudio no le es posible comprenderlos h
 function modoAccesibilidad(){
     document.body.classList.toggle("accesibilidad");
 }
-
-
-
 
 let size = 18;
 
@@ -82,7 +73,48 @@ function cambiar(valor){
 function modoDislexia(){
     document.body.classList.toggle("dislexia");
 }
-</script>
+function iniciarDictado() {
+    if ('webkitSpeechRecognition' in window) {
+        const reconocimiento = new webkitSpeechRecognition();
 
+        reconocimiento.lang = 'es-ES';
+        reconocimiento.continuous = false;
+        reconocimiento.interimResults = false;
+
+        reconocimiento.onresult = function (event) {
+            const texto = event.results[0][0].transcript;
+            document.getElementById("texto").value += texto;
+        };
+
+        reconocimiento.start();
+    } else {
+        alert("Tu navegador no admite reconocimiento de voz.");
+    }
+}
+
+function mostrarMenu() {
+    const panel = document.getElementById("panelAccesibilidad");
+
+    if (panel.style.display === "flex") {
+        panel.style.display = "none";
+    } else {
+        panel.style.display = "flex";
+    }
+}
+
+function fondoBlanco() {
+    document.body.classList.toggle("modo-blanco");
+}
+</script>
+<div class="menu-accesibilidad">
+    <button class="btn-menu" onclick="mostrarMenu()">⚙️</button>
+
+    <div id="panelAccesibilidad" class="panel">
+        <button onclick="cambiar(2)">A+</button>
+        <button onclick="cambiar(-2)">A-</button>
+        <button onclick="fondoBlanco()">Fondo blanco</button>
+    </div>
+    
+</div>
 </body>
 </html>

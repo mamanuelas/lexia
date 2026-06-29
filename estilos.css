@@ -115,3 +115,76 @@ body.accesibilidad .card{
     background-color:#ffffff !important;
     border:2px solid #000000 !important;
 }
+.editor {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+textarea {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 10px;
+    resize: vertical;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.botones{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+.edades{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.edad-btn{
+    width: 170px;
+    height: 50px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.menu-accesibilidad{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.btn-menu{
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.panel{
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.panel button{
+    width: 150px;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.modo-blanco{
+    background-color: white;
+    color: black;
+}
