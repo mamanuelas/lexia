@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEXIA</title>
+<link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+<link rel="stylesheet" href="estilos.L.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600&display=swap');
+</style>
+</head>
+<body>
+
+<header>
+    <h1>LEXIA</h1>
+    <p></p>
+</header>
+
+<div class="container">
+
+    <section class="hero">
+        <h2>Bienvenido</h2>
+        <p>
+            En la cotidianidad las personas las cuales padecen este trastorno conviven con ciertas dificultades y muchas de esas son en el ámbito escolar, nos tomamos el trabajo de comunicarnos con ellos para que nos comenten acerca de estos. Al momento de leer textos destinados al estudio no le es posible comprenderlos haciendo que cuando deba enfrentarse a un examen no recuerde o entienda el tema, al igual que cuando reciben mensajes largos donde se encuentran las letras de un tamaño pequeño y palabras juntas.
+El objetivo principal de la página creada es adaptar textos, imágenes y documentos de forma que el usuario pueda comprender con mayor facilidad, adaptando la fuente, el espaciado y los colores tanto del fondo como de la letra con el fin de complacer las necesidades del mismo. Además de tener entre las funciones opcionales la inclusión de imágenes, ejemplos y simplificación del vocabulario adaptado al nivel y edad de la persona. También contará con la tecnología TTS (text-to-speech) para ayudar con la lectura
+
+
+        </p>
+    </section>
+
+    <section class="editor">
+        <h2>Escribe o dicta tu texto</h2>
+
+        <textarea id="texto" placeholder="Escribe aquí o utiliza el micrófono..." rows="10"></textarea>
+        <p id="contador">0 palabras</p>
+
+        <h3>Texto adaptado</h3>
+        <div id="resultado" class="resultado"></div>
+
+        <div class="botones">
+            <input type="file" id="imagen" accept="image/*" onchange="leerImagen(event)">
+            <input type="file" id="documento" accept=".pdf,.docx" onchange="leerDocumento(event)">
+            <button id="micBtn" onclick="iniciarDictado()" title="Dictar por voz">🎤 Dictar</button>
+        </div>
+
+        <div class="lectura-botones">
+            <button id="leerBtn" onclick="leerTexto()" title="Leer en voz alta">🔊 Leer texto</button>
+            <button id="detenerBtn" onclick="detenerLectura()" title="Detener lectura">⏹ Detener</button>
+        </div>
+        <label>Velocidad de lectura</label>
+        <input
+        type="range"
+        id="velocidad"
+        min="0.5"
+        max="2"
+        step="0.1"
+        value="1">
+        
+        <span id="valorVelocidad">1x</span>
+
+        <div class="edades">
+            <button class="edad-btn" onclick="seleccionarEdad('0-6', this)">0 - 6 años</button>
+            <button class="edad-btn" onclick="seleccionarEdad('6-12', this)">6 - 12 años</button>
+            <button class="edad-btn" onclick="seleccionarEdad('12+', this)">12 años o más</button>
+        </div>
+
+        <button class="adaptar-btn" onclick="adaptarTexto()">✨ Adaptar texto</button>
+        <button onclick="copiarTexto()">📋 Copiar texto</button>
+        <button onclick="descargarTexto()">💾 Descargar</button>
+
+        <div class="fuente-extra-wrap">
+            <button id="fuenteBtn" onclick="alternarFuenteExtra()" title="Probar un alfabeto extra apto para dislexia">
+                🔤 Probar alfabeto OpenDyslexic
+            </button>
+        </div>
+    </section>
+
+</div>
+
+<footer>
+    Diseño accesible • 2026
+</footer>
+
+<div class="menu-accesibilidad">
+    <div id="panelAccesibilidad" class="panel">
+        <button onclick="cambiar(2)">A+</button>
+        <button onclick="cambiar(-2)">A-</button>
+        <button onclick="fondoBlanco()">☀️Fondo blanco</button>
+        <button onclick="modoOscuro()">🌙 Modo oscuro</button>
+    </div>
+    <button class="btn-menu" onclick="mostrarMenu()" title="Opciones de accesibilidad">⚙️</button>
+</div>
+
+<script>
+
+
+let size = 18;
+
+function cambiar(valor) {
+    size += valor;
+
+    if (size < 14) size = 14;
+    if (size > 32) size = 32;
+
+    document.body.style.fontSize = size + "px";
+
+    guardarTamano();
+}
+
+
+function fondoBlanco() {
+
+    document.body.classList.toggle("modo-blanco");
+
+    localStorage.setItem(
+        "lexia-fondo",
+        document.body.classList.contains("modo-blanco")
+    );
+
+}
+
+
+function mostrarMenu() {
+    const panel = document.getElementById("panelAccesibilidad");
+    panel.style.display = (panel.style.display === "flex") ? "none" : "flex";
+}
+
+
+function alternarFuenteExtra() {
+    const activo = document.body.classList.toggle("dislexia");
+    const btn = document.getElementById("fuenteBtn");
+    btn.classList.toggle("activo", activo);
+    btn.textContent = activo
+        ? "🔤 Volver al alfabeto normal"
+        : "🔤 Probar alfabeto OpenDyslexic";
+    localStorage.setItem("lexia-dislexia", activo);
+}
+
+
+let edadSeleccionada = null;
+const DICCIONARIO_EDAD = {
+    "0-6": {
+        "automóvil": "auto",
+        "vivienda": "casa",
+        "alimentarse": "comer",
+        "posteriormente": "después",
+        "aproximadamente": "casi",
+        "utilizar": "usar",
+        "finalizar": "terminar",
+        "observar": "ver",
+        "adquirir": "comprar",
+        "comprender": "entender",
+        "dificultad": "problema",
+        "rápidamente": "rápido"
+    },
+    "6-12": {
+        "automóvil": "auto",
+        "posteriormente": "después",
+        "utilizar": "usar",
+        "finalizar": "terminar",
+        "adquirir": "comprar",
+        "aproximadamente": "casi",
+        "comprender": "entender"
+    },
+    "12+": {
+        "utilizar": "usar",
+        "posteriormente": "después",
+        "aproximadamente": "casi"
+    }
+};
+
+function aplicarDiccionario(texto, diccionario) {
+    let resultado = texto;
+    for (const palabra in diccionario) {
+        const regex = new RegExp("\\b" + palabra + "\\b", "gi");
+        resultado = resultado.replace(regex, diccionario[palabra]);
+    }
+    return resultado;
+}
+
+function seleccionarEdad(edad, btn) {
+    const texto = document.getElementById("texto").value;
+
+    if (texto.trim() === "") {
+        alert("Primero escribe un texto.");
+        return;
+    }
+
+    edadSeleccionada = edad;
+    document.querySelectorAll(".edad-btn").forEach(b => b.classList.remove("seleccionada"));
+    if (btn) btn.classList.add("seleccionada");
+
+    const diccionario = DICCIONARIO_EDAD[edad] || {};
+    const adaptado = aplicarDiccionario(texto, diccionario);
+    document.getElementById("resultado").textContent = adaptado;
+}
+
+
+const DICCIONARIO_GENERAL = {
+    "utilizar": "usar",
+    "automóvil": "auto",
+    "posteriormente": "después",
+    "aproximadamente": "casi",
+    "finalizar": "terminar",
+    "alimentarse": "comer",
+    "vivienda": "casa",
+    "observar": "ver",
+    "adquirir": "comprar",
+    "comprender": "entender",
+    "dificultad": "problema",
+    "rápidamente": "rápido",
+    "incrementar": "aumentar",
+    "permanecer": "quedarse",
+    "suficiente": "bastante",
+    "numerosos": "muchos",
+    "previamente": "antes",
+    "ocasionar": "causar"
+};
+
+function adaptarTexto() {
+    const texto = document.getElementById("texto").value;
+
+    if (texto.trim() === "") {
+        alert("Escribe un texto primero.");
+        return;
+    }
+
+    const diccionarioEdad = edadSeleccionada ? (DICCIONARIO_EDAD[edadSeleccionada] || {}) : {};
+    const diccionarioFinal = Object.assign({}, DICCIONARIO_GENERAL, diccionarioEdad);
+
+    const adaptado = aplicarDiccionario(texto, diccionarioFinal);
+    document.getElementById("resultado").textContent = adaptado;
+}
+
+
+let reconocimiento = null;
+let escuchando = false;
+
+function iniciarDictado() {
+    const micBtn = document.getElementById("micBtn");
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+        alert("Tu navegador no admite reconocimiento de voz. Probá con Google Chrome.");
+        return;
+    }
+
+    if (escuchando && reconocimiento) {
+        reconocimiento.stop();
+        return;
+    }
+
+    reconocimiento = new SpeechRecognition();
+    reconocimiento.lang = 'es-ES';
+    reconocimiento.continuous = true;
+    reconocimiento.interimResults = false;
+
+    reconocimiento.onstart = function () {
+        escuchando = true;
+        micBtn.classList.add("escuchando");
+        micBtn.textContent = "🎤 Escuchando...";
+    };
+
+    reconocimiento.onresult = function (event) {
+        const textarea = document.getElementById("texto");
+        let nuevoTexto = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            if (event.results[i].isFinal) {
+                nuevoTexto += event.results[i][0].transcript;
+            }
+        }
+        if (nuevoTexto) {
+            textarea.value += (textarea.value && !textarea.value.endsWith(" ") ? " " : "") + nuevoTexto.trim() + " ";
+        }
+    };
+
+    reconocimiento.onerror = function (event) {
+        console.error("Error de reconocimiento de voz:", event.error);
+        if (event.error === "not-allowed" || event.error === "service-not-allowed") {
+            alert("Necesitás dar permiso de micrófono para usar el dictado por voz.");
+        }
+    };
+
+    reconocimiento.onend = function () {
+        escuchando = false;
+        micBtn.classList.remove("escuchando");
+        micBtn.textContent = "🎤 Dictar";
+    };
+
+    reconocimiento.start();
+}
+
+
+function leerTexto() {
+    const resultado = document.getElementById("resultado").textContent.trim();
+    const texto = resultado !== "" ? resultado : document.getElementById("texto").value;
+
+    if (texto.trim() === "") {
+        alert("No hay texto para leer.");
+        return;
+    }
+
+    const leerBtn = document.getElementById("leerBtn");
+    const voz = new SpeechSynthesisUtterance(texto);
+    voz.rate = parseFloat(document.getElementById("velocidad").value);
+    voz.lang = "es-ES";
+
+    voz.onstart = () => leerBtn.classList.add("leyendo");
+    voz.onend = () => leerBtn.classList.remove("leyendo");
+    voz.onerror = () => leerBtn.classList.remove("leyendo");
+
+    speechSynthesis.cancel();
+    speechSynthesis.speak(voz);
+}
+
+function detenerLectura() {
+    speechSynthesis.cancel();
+    document.getElementById("leerBtn").classList.remove("leyendo");
+}
+
+
+function guardarTamano() {
+    localStorage.setItem("lexia-size", size);
+}
+
+
+function cargarTamano() {
+    const s = localStorage.getItem("lexia-size");
+    if (s) {
+        size = parseInt(s);
+        document.body.style.fontSize = size + "px";
+    }
+}
+const slider=document.getElementById("velocidad");
+
+const valor=document.getElementById("valorVelocidad");
+
+slider.oninput=function(){
+
+valor.innerHTML=this.value+"x";
+
+}
+function modoOscuro(){
+
+document.body.classList.toggle("modo-oscuro");
+
+}
+const area=document.getElementById("texto");
+
+area.addEventListener("input",()=>{
+
+const cantidad=area.value.trim()===""
+?0
+:area.value.trim().split(/\s+/).length;
+
+document.getElementById("contador").innerHTML=
+cantidad+" palabras";
+
+});
+function copiarTexto(){
+
+const texto=document.getElementById("resultado").innerText;
+
+navigator.clipboard.writeText(texto);
+
+alert("Texto copiado");
+
+}
+function descargarTexto(){
+
+const texto=document.getElementById("resultado").innerText;
+
+const archivo=new Blob([texto],{type:"text/plain"});
+
+const enlace=document.createElement("a");
+
+enlace.href=URL.createObjectURL(archivo);
+
+enlace.download="texto_adaptado.txt";
+
+enlace.click();
+
+}
+async function leerImagen(event){
+
+    const archivo = event.target.files[0];
+
+    if(!archivo) return;
+
+    document.getElementById("resultado").textContent =
+        "Leyendo imagen...";
+
+    const {
+        data:{text}
+    } = await Tesseract.recognize(
+        archivo,
+        "spa"
+    );
+
+    document.getElementById("texto").value=text;
+
+    document.getElementById("resultado").textContent=text;
+
+}
+async function leerDocumento(event){
+
+    const archivo=event.target.files[0];
+
+    if(!archivo) return;
+
+    if(archivo.name.endsWith(".docx")){
+
+        const arrayBuffer=await archivo.arrayBuffer();
+
+        const resultado=
+        await mammoth.extractRawText({
+            arrayBuffer
+        });
+
+        document.getElementById("texto").value=
+        resultado.value;
+
+    }
+
+    else if(archivo.name.endsWith(".pdf")){
+
+        const bytes=await archivo.arrayBuffer();
+
+        const pdf=
+        await pdfjsLib.getDocument({
+            data:bytes
+        }).promise;
+
+        let texto="";
+
+        for(let i=1;i<=pdf.numPages;i++){
+
+            const pagina=
+            await pdf.getPage(i);
+
+            const contenido=
+            await pagina.getTextContent();
+
+            texto+=contenido.items
+            .map(item=>item.str)
+            .join(" ");
+
+            texto+="\n\n";
+
+        }
+
+        document.getElementById("texto").value=texto;
+
+    }
+
+}
+
+
+
+
+window.onload = function () {
+
+    cargarTamano();
+
+    if(localStorage.getItem("lexia-fondo")=="true"){
+        document.body.classList.add("modo-blanco");
+    }
+
+    if(localStorage.getItem("lexia-dislexia")=="true"){
+
+        document.body.classList.add("dislexia");
+
+        const btn=document.getElementById("fuenteBtn");
+
+        btn.classList.add("activo");
+
+        btn.textContent="🔤 Volver al alfabeto normal";
+
+    }
+
+};
+</script>
+<script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.js"></script>
+
+<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+</body>
+</html>

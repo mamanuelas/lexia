@@ -1,0 +1,248 @@
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Lexend', sans-serif;
+    background: #f2f5fa;
+    color: #222;
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+}
+
+header {
+    background: #3a6ea5;
+    color: white;
+    padding: 25px 20px;
+    text-align: center;
+}
+header h1 { margin: 0; letter-spacing: 2px; }
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.hero {
+    background: white;
+    padding: 25px 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
+.hero h2 { margin-top: 0; }
+
+.editor {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+textarea {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    font-family: inherit;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    resize: vertical;
+}
+
+.resultado {
+    min-height: 60px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #eef4fb;
+    border: 1px dashed #a8c2dd;
+    color: #1f3a55;
+    white-space: pre-wrap;
+}
+.resultado:empty::before {
+    content: "Acá vas a ver el texto adaptado...";
+    color: #8aa3bd;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+    font-size: 14px;
+}
+
+
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background: #3a6ea5;
+    color: white;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+button:hover { background: #2d5784; }
+button:active { transform: scale(0.96); }
+
+input[type="file"] {
+    font-family: inherit;
+}
+
+.botones {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+
+#micBtn { background: #5a4fcf; font-size: 18px; }
+#micBtn:hover { background: #483dab; }
+#micBtn.escuchando {
+    background: #c0392b;
+    animation: pulso 1s infinite;
+}
+@keyframes pulso {
+    0% { box-shadow: 0 0 0 0 rgba(192,57,43,0.5); }
+    70% { box-shadow: 0 0 0 12px rgba(192,57,43,0); }
+    100% { box-shadow: 0 0 0 0 rgba(192,57,43,0); }
+}
+
+
+.lectura-botones {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+#leerBtn { background: #16a085; }
+#leerBtn:hover { background: #128a72; }
+#detenerBtn { background: #95a5a6; }
+#detenerBtn:hover { background: #7f8c8d; }
+#leerBtn.leyendo {
+    background: #0e6655;
+    animation: pulso-verde 1s infinite;
+}
+@keyframes pulso-verde {
+    0% { box-shadow: 0 0 0 0 rgba(22,160,133,0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(22,160,133,0); }
+    100% { box-shadow: 0 0 0 0 rgba(22,160,133,0); }
+}
+
+
+.edades {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.edad-btn {
+    width: 170px;
+    height: 50px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #e8eef5;
+    color: #222;
+    border: 2px solid transparent;
+}
+.edad-btn:hover { background: #d6e0eb; }
+.edad-btn.seleccionada {
+    background: #3a6ea5;
+    color: white;
+    border-color: #2d5784;
+}
+
+
+.adaptar-btn {
+    display: block;
+    margin: 25px auto 0;
+    background: #e67e22;
+    font-size: 18px;
+    padding: 12px 30px;
+}
+.adaptar-btn:hover { background: #cf6d1a; }
+
+
+.fuente-extra-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+#fuenteBtn { background: #27ae60; }
+#fuenteBtn:hover { background: #1e8449; }
+#fuenteBtn.activo { background: #145a32; }
+
+
+
+.menu-accesibilidad {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.btn-menu {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    background: #3a6ea5;
+}
+.panel {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+    background: white;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+.panel button {
+    width: 150px;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #e8eef5;
+    color: #222;
+}
+.panel button:hover { background: #d6e0eb; }
+
+
+
+.modo-blanco {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+.modo-blanco .hero,
+.modo-blanco .editor {
+    background-color: #ffffff !important;
+    box-shadow: none;
+    border: 1px solid #ddd;
+}
+
+.dislexia, .dislexia textarea, .dislexia .resultado, .dislexia p, .dislexia h1, .dislexia h2 {
+    font-family: 'OpenDyslexic', 'Comic Sans MS', sans-serif !important;
+    letter-spacing: 0.5px;
+}
+.modo-oscuro{
+
+background:#222;
+color:white;
+
+}
+
+.modo-oscuro .hero,
+.modo-oscuro .editor{
+
+background:#333;
+color:white;
+
+}
